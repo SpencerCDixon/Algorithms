@@ -1,7 +1,8 @@
 require 'pry'
+require 'benchmark'
 array = []
 
-11.times do
+1_000_000.times do
   array << rand(1000)
 end
 
@@ -30,4 +31,4 @@ def merge_a(left_array, right_array)
   end
   return result.concat(left_array).concat(right_array)
 end
-puts merge_sort(array)
+puts Benchmark.measure {puts merge_sort(array)}
