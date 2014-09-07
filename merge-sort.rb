@@ -1,37 +1,33 @@
 require 'pry'
-array = (1..100).to_a.shuffle
+array = []
 
-def merge(array1, start, middle, e)
-  n1 = m - s + 1
-  n2 = e - m
+11.times do
+  array << rand(1000)
+end
 
-  array2 = array1[start..middle].push(10**10)
-  array3 = array1[(middle + 1)..e].push(10**10)
+def merge_sort(array)
+  return array if array.length <= 1
 
-  i = 0
-  j = 0
-  k = 0
+  half = array.size / 2
+  left_array = array.take(half)
+  right_array = array.drop(half)
 
-  until k == array1.size - 1
-    if array2[i] <= array3[j]
-      array1[k] = array2[i]
-      i += 1
-    elsif array2[i] > array3[j]
-      array1[k] = array3[j]
-      j += 1
+  sorted_left = merge_sort(left_array)
+  sorted_right = merge_sort(right_array)
+
+  return merge_a(sorted_left, sorted_right)
+end
+
+
+def merge_a(left_array, right_array)
+  result = []
+  until left_array.empty? || right_array.empty?
+    if left_array.first <= right_array.first
+      result << left_array.shift
+    else
+      result << right_array.shift
     end
   end
+  return result.concat(left_array).concat(right_array)
 end
-
-def merge_sort(array, s, e)
-  if s >= e
-    return array
-  end
-  m = (s + e)/2
-  merge_sort(array, s, e)
-  merge_sort(array, m, e)
-  merge(array, s, m, e)
-end
-
-merge_sort(array, 0, 99)
-binding.pry
+puts merge_sort(array)
